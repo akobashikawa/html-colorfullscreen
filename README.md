@@ -1,7 +1,7 @@
 # Color Full Screen
 
 Display chosen color on fullscreen
-    --
+
 ## User Interface
 A circular control panel contains:
 - Color picker (central circular button)
