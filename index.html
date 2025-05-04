@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Fullscreen</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s;
+        }
+        #colorPicker {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="color" id="colorPicker" value="#ffffff">
+    <button id="fullscreenButton">Set Fullscreen Color</button>
+
+    <script>
+        const colorPicker = document.getElementById('colorPicker');
+        const fullscreenButton = document.getElementById('fullscreenButton');
+
+        fullscreenButton.addEventListener('click', () => {
+            const selectedColor = colorPicker.value;
+            document.body.style.backgroundColor = selectedColor;
+
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
