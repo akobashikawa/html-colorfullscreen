@@ -150,6 +150,54 @@
                 hideControls();
             }
         });
+
+        // Function to parse query string
+        const getQueryParam = (param) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        };
+
+        // Function to validate and convert color formats
+        const parseColor = (color) => {
+            if (!color) return null;
+            
+            // Create a temporary div to test color validity
+            const temp = document.createElement('div');
+            
+            // Test hex format (with or without #)
+            if (/^#?[0-9A-Fa-f]{6}$/.test(color)) {
+                const hexColor = color.startsWith('#') ? color : '#' + color;
+                temp.style.color = hexColor;
+                if (temp.style.color) return hexColor;
+            }
+            
+            // Test rgb format
+            if (color.startsWith('rgb')) {
+                temp.style.color = color;
+                if (temp.style.color) return color;
+            }
+            
+            // Test hsl format
+            if (color.startsWith('hsl')) {
+                temp.style.color = color;
+                if (temp.style.color) return color;
+            }
+            
+            return null;
+        };
+
+        // Set initial color from query string
+        window.addEventListener('load', () => {
+            const colorParam = getQueryParam('color');
+            if (colorParam) {
+                const initialColor = parseColor(colorParam);
+                if (initialColor) {
+                    document.body.style.backgroundColor = initialColor;
+                    colorPicker.value = initialColor;
+                    colorPickerContainer.style.backgroundColor = initialColor;
+                }
+            }
+        });
     </script>
 </body>
 </html>
