@@ -1,0 +1,14 @@
+1.0.0 (2025-05-04)
+
+COLOR FULLSCREEN
+Display chosen color on fullscreen. HTML version.
+
+Features:
+- Color picker with circular interface
+- Fullscreen color display
+- Query string color parameter support
+- Minimalist UI with fade effects
+- Support for hex, RGB and HSL colors
+
+Author: Antonio Kobashikawa-Carrasco
+License: MIT
