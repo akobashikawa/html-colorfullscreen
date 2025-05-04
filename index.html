@@ -41,6 +41,11 @@
             margin: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Added shadow */
             font-weight: bold;
+            opacity: 0;
+        }
+        button:hover {
+            opacity: 1;
+            transition: opacity 0.3s;
         }
         #hideButton {
             position: relative;
@@ -59,6 +64,9 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             padding: 20px;
         }
+        .controls-container.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -76,40 +84,69 @@
         const colorPickerContainer = document.getElementById('colorPickerContainer');
         const fullscreenButton = document.getElementById('fullscreenButton');
         const hideButton = document.getElementById('hideButton');
+        const controlsContainer = document.querySelector('.controls-container');
 
-        colorPicker.addEventListener('input', () => {
-            colorPickerContainer.style.backgroundColor = colorPicker.value;
-        });
-
-        fullscreenButton.addEventListener('click', () => {
+        // Function to set fullscreen color
+        const setFullscreenColor = () => {
             const selectedColor = colorPicker.value;
             document.body.style.backgroundColor = selectedColor;
 
             if (document.documentElement.requestFullscreen) {
                 document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            } else if (document.documentElement.mozRequestFullScreen) {
                 document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            } else if (document.documentElement.webkitRequestFullscreen) {
                 document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            } else if (document.documentElement.msRequestFullscreen) {
                 document.documentElement.msRequestFullscreen();
             }
+        };
+
+        // Function to hide controls
+        const hideControls = () => {
+            controlsContainer.classList.add('hidden');
+            document.body.style.cursor = 'auto';
+        };
+
+        // Function to show controls
+        const showControls = () => {
+            controlsContainer.classList.remove('hidden');
+            document.body.style.cursor = 'pointer';
+        };
+
+        colorPicker.addEventListener('input', (event) => {
+            event.stopPropagation();
+            colorPickerContainer.style.backgroundColor = colorPicker.value;
+        });
+
+        colorPicker.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        colorPickerContainer.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        fullscreenButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            setFullscreenColor();
+        });
+
+        controlsContainer.addEventListener('click', (event) => {
+            event.stopPropagation();
+            setFullscreenColor();
         });
 
         hideButton.addEventListener('click', (event) => {
             event.stopPropagation();
-            colorPickerContainer.classList.add('hidden');
-            fullscreenButton.classList.add('hidden');
-            hideButton.classList.add('hidden');
-            document.body.style.cursor = 'auto';
+            hideControls();
         });
 
         document.body.addEventListener('click', () => {
-            if (colorPickerContainer.classList.contains('hidden')) {
-                colorPickerContainer.classList.remove('hidden');
-                fullscreenButton.classList.remove('hidden');
-                hideButton.classList.remove('hidden');
-                document.body.style.cursor = 'pointer';
+            if (controlsContainer.classList.contains('hidden')) {
+                showControls();
+            } else {
+                hideControls();
             }
         });
     </script>
