@@ -1,9 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Fullscreen</title>
+    <!--
+    -- COLOR FULLSCREEN
+    -- Display chosen color on fullscreen
+    --
+    -- USER INTERFACE
+    -- A circular control panel contains:
+    -- - Color picker (central circular button)
+    -- - SET button: enters fullscreen with selected color
+    -- - HIDE button: hides the control panel
+    -- 
+    -- INTERACTIONS
+    -- - Click on color picker to select a color
+    -- - Click SET button or anywhere in the control panel (except buttons/picker) to set color and enter fullscreen
+    -- - Click HIDE button or outside the control panel to hide controls
+    -- - Click anywhere when controls are hidden to show them again
+    -- - Buttons appear on mouseover
+    --
+    -- QUERY STRING
+    -- You can set the initial background color using a query string parameter.
+    -- Example: index.html?color=ff0000
+    -- The color can be:
+    -- - Hex format with or without # (e.g., ff0000 or #ff0000)
+    -- - RGB format (e.g., rgb(255, 0, 0))
+    -- - HSL format (e.g., hsl(0, 100%, 50%))
+    -- Take care of url encoding if using RGB or HSL formats
+    -- or # (e.g., %23ff0000).
+    --
+    -- LICENSE
+    -- This code is released under the MIT License.
+    -- You can use, modify, and distribute it freely.
+    -- The author is not responsible for any misuse or damage caused by this code.
+    -- The code is provided "as is" without warranty of any kind.
+    --
+    -- AUTHOR
+    -- Antonio Kobashikawa
+    -->
     <style>
         body {
             display: flex;
@@ -15,6 +52,7 @@
             cursor: pointer;
             flex-direction: column;
         }
+
         #colorPickerContainer {
             width: 50px;
             height: 50px;
@@ -22,16 +60,20 @@
             cursor: pointer;
             margin: 10px;
             border: 2px solid white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Added shadow */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            /* Added shadow */
         }
+
         #colorPicker {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .hidden {
             display: none;
         }
+
         button {
             border-radius: 50%;
             width: 50px;
@@ -45,14 +87,17 @@
             color: white;
             text-shadow: black 1px 1px 2px;
         }
+
         button:hover {
             opacity: 1;
             transition: opacity 0.3s;
         }
+
         #hideButton {
             position: relative;
             overflow: hidden;
         }
+
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -65,11 +110,13 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             padding: 20px;
         }
+
         .controls-container.hidden {
             display: none;
         }
     </style>
 </head>
+
 <body>
     <div class="controls-container">
         <button id="fullscreenButton">SET</button>
@@ -160,29 +207,29 @@
         // Function to validate and convert color formats
         const parseColor = (color) => {
             if (!color) return null;
-            
+
             // Create a temporary div to test color validity
             const temp = document.createElement('div');
-            
+
             // Test hex format (with or without #)
             if (/^#?[0-9A-Fa-f]{6}$/.test(color)) {
                 const hexColor = color.startsWith('#') ? color : '#' + color;
                 temp.style.color = hexColor;
                 if (temp.style.color) return hexColor;
             }
-            
+
             // Test rgb format
             if (color.startsWith('rgb')) {
                 temp.style.color = color;
                 if (temp.style.color) return color;
             }
-            
+
             // Test hsl format
             if (color.startsWith('hsl')) {
                 temp.style.color = color;
                 if (temp.style.color) return color;
             }
-            
+
             return null;
         };
 
@@ -200,4 +247,5 @@
         });
     </script>
 </body>
+
 </html>
