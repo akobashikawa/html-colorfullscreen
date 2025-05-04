@@ -12,6 +12,7 @@
             height: 100vh;
             margin: 0;
             transition: background-color 0.5s;
+            cursor: pointer; /* Change cursor to indicate clickability */
         }
         #colorPicker {
             margin-right: 10px;
@@ -25,13 +26,13 @@
     <input type="color" id="colorPicker" value="#ffffff">
     <button id="fullscreenButton">Set Fullscreen Color</button>
     <button id="hideButton">Hide</button>
-    <button id="unhideButton" class="hidden">Unhide</button>
+    <!-- <button id="unhideButton" class="hidden">Unhide</button> -->
 
     <script>
         const colorPicker = document.getElementById('colorPicker');
         const fullscreenButton = document.getElementById('fullscreenButton');
         const hideButton = document.getElementById('hideButton');
-        const unhideButton = document.getElementById('unhideButton');
+        // const unhideButton = document.getElementById('unhideButton');
 
         fullscreenButton.addEventListener('click', () => {
             const selectedColor = colorPicker.value;
@@ -48,18 +49,23 @@
             }
         });
 
-        hideButton.addEventListener('click', () => {
+        hideButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent the click from propagating to the body
             colorPicker.classList.add('hidden');
             fullscreenButton.classList.add('hidden');
             hideButton.classList.add('hidden');
-            unhideButton.classList.remove('hidden');
+            // unhideButton.classList.remove('hidden');
+            document.body.style.cursor = 'auto'; // Change cursor back
         });
 
-        unhideButton.addEventListener('click', () => {
-            colorPicker.classList.remove('hidden');
-            fullscreenButton.classList.remove('hidden');
-            hideButton.classList.remove('hidden');
-            unhideButton.classList.add('hidden');
+        document.body.addEventListener('click', () => {
+            if (colorPicker.classList.contains('hidden')) {
+                colorPicker.classList.remove('hidden');
+                fullscreenButton.classList.remove('hidden');
+                hideButton.classList.remove('hidden');
+                // unhideButton.classList.add('hidden');
+                document.body.style.cursor = 'pointer'; // Change cursor back
+            }
         });
     </script>
 </body>
