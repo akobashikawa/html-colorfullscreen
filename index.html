@@ -16,15 +16,22 @@
         #colorPicker {
             margin-right: 10px;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <input type="color" id="colorPicker" value="#ffffff">
     <button id="fullscreenButton">Set Fullscreen Color</button>
+    <button id="hideButton">Hide</button>
+    <button id="unhideButton" class="hidden">Unhide</button>
 
     <script>
         const colorPicker = document.getElementById('colorPicker');
         const fullscreenButton = document.getElementById('fullscreenButton');
+        const hideButton = document.getElementById('hideButton');
+        const unhideButton = document.getElementById('unhideButton');
 
         fullscreenButton.addEventListener('click', () => {
             const selectedColor = colorPicker.value;
@@ -39,6 +46,20 @@
             } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
                 document.documentElement.msRequestFullscreen();
             }
+        });
+
+        hideButton.addEventListener('click', () => {
+            colorPicker.classList.add('hidden');
+            fullscreenButton.classList.add('hidden');
+            hideButton.classList.add('hidden');
+            unhideButton.classList.remove('hidden');
+        });
+
+        unhideButton.addEventListener('click', () => {
+            colorPicker.classList.remove('hidden');
+            fullscreenButton.classList.remove('hidden');
+            hideButton.classList.remove('hidden');
+            unhideButton.classList.add('hidden');
         });
     </script>
 </body>
